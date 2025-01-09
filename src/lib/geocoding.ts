@@ -1,13 +1,19 @@
 // src/lib/geocoding.ts
-import { GeocodeResult } from '../types';
+import { GeocodeResult} from "../types";
 
 const GEOCODING_API_KEY = import.meta.env.VITE_GEOCODING_API_KEY;
 
+/*
 export interface GeocodeResult {
-  latitude: number;
-  longitude: number;
-  formatted_address: string;
-}
+    latitude: number;
+    longitude: number;
+    formatted_address: string;
+    coordinates: { // Add this line
+      latitude: number;
+      longitude: number;
+    };
+  }
+    */
 
 export async function geocodePostcode(
   postcode: string,
@@ -32,11 +38,13 @@ export async function geocodePostcode(
 
     const result = data.results[0];
     return {
+        latitude: result.geometry.lat,
+        longitude: result.geometry.lng,
+        formatted_address: result.formatted,
         coordinates: {
-            latitude: result.geometry.lat,
-            longitude: result.geometry.lng
-          },
-      formatted_address: result.formatted,
+          latitude: result.geometry.lat,
+          longitude: result.geometry.lng
+        }
     };
   } catch (error: any) {
     throw new Error(`Geocoding error: ${error.message}`);

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../../services/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+// import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -161,6 +161,17 @@ return (
         </div>
       </form>
 
+      {showResendButton && ( // Conditionally render the resend button
+        <div className="mt-4 text-center">
+          <button
+            onClick={handleResendConfirmation}
+            className="text-blue-600 hover:text-blue-500"
+          >
+            Resend Confirmation Email
+          </button>
+        </div>
+      )}
+
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Don't have an account?{' '}
@@ -172,6 +183,7 @@ return (
     </div>
   </div>
 );
+
 
 }
 

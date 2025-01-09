@@ -50,8 +50,8 @@ export const ServiceSearch: React.FC<ServiceSearchProps> = ({ type }) => {
 
       const { data, error } = await supabase.rpc('search_providers', {
         p_type: type,
-        p_latitude: geocodeResult.coordinates.latitude,
-        p_longitude: geocodeResult.coordinates.longitude,
+        p_latitude: geocodeResult.latitude,
+        p_longitude: geocodeResult.longitude,
         p_radius: filters.maxDistance,
         p_specialties: filters.brands || filters.cargoTypes
       });

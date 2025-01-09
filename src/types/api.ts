@@ -1,13 +1,14 @@
 // src/types/api.ts
-import { Coordinates } from './common';
+import type { Provider } from './providers';
 
 export interface GeocodeResponse {
-  coordinates: Coordinates;
-  formatted_address: string;
+    latitude: number;
+    longitude: number;
+    formatted_address: string;
 }
 
 export interface SearchProvidersResponse {
-  providers: SearchResult[];
+  providers: Provider[];
   total: number;
   page: number;
   pageSize: number;
@@ -19,6 +20,11 @@ export interface Coordinates {
   }
   
   export interface GeocodeResult {
-    coordinates: Coordinates;
+    latitude: number;
+    longitude: number;
     formatted_address: string;
+    coordinates: {
+      latitude: number;
+      longitude: number;
+    };
   }

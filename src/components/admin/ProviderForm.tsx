@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { supabase } from '../../services/supabaseClient';
 import { geocodePostcode } from '../../lib/geocoding';
-import { Provider, ServiceType } from '../../types';
+import { Provider, ServiceType, ProviderFormData } from '../../types';
 
 // Form validation schema
 const providerFormSchema = z.object({
@@ -23,7 +23,7 @@ const providerFormSchema = z.object({
   cargo_types: z.array(z.string()).optional(),
 });
 
-type ProviderFormData = z.infer<typeof providerFormSchema>;
+// type ProviderFormData = z.infer<typeof providerFormSchema>;
 
 interface ProviderFormProps {
   initialData?: Provider;
@@ -42,48 +42,25 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({
 
   const defaultValues: ProviderFormData = {
     type,
-    name: initialData?.name ?? '',
-    contact_email: initialData?.contact_email ?? null,
-    contact_phone: initialData?.contact_phone ?? null,
-    address: initialData?.address ?? '',
-    postcode: initialData?.postcode ?? '',
-    country: initialData?.country ?? '',
-    price_range: initialData?.price_range ?? null,
-    notes: initialData?.notes ?? null,
-    brands: initialData?.brands?.map(b => b.id) ?? [],
-    cargo_types: initialData?.cargo_types?.map(c => c.id) ?? [],
-  }:
+    name: initialData?.name || '',
+    contact_email: initialData?.contact_email || '',
+    contact_phone: initialData?.contact_phone || '',
+    address: initialData?.address || '',
+    postcode: initialData?.postcode || '',
+    country: initialData?.country || '',
+    price_range: initialData?.price_range || '',
+    notes: initialData?.notes || '',
+    brands: initialData?.brands?.map(b => b.id) || [],
+    cargo_types: initialData?.cargo_types?.map(c => c.id) || [],
+  };
   
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch } = 
+  const { register, handleSubmit, formState: { errors } } = 
   useForm<ProviderFormData>({
     resolver: zodResolver(providerFormSchema),
-    defaultValues: initialData ? {
-      type,
-      name: initialData.name ?? '',
-      contact_email: initialData.contact_email ?? '',
-      contact_phone: initialData.contact_phone ?? '',
-      address: initialData.address ?? '',
-      postcode: initialData.postcode ?? '',
-      country: initialData.country ?? '',
-      price_range: initialData.price_range ?? '',
-      notes: initialData.notes ?? '',
-      brands: initialData.brands ?? [],
-      cargo_types: initialData.cargo_types ?? [],
-    } : {
-      type,
-      name: '',
-      contact_email: '',
-      contact_phone: '',
-      address: '',
-      postcode: '',
-      country: '',
-      price_range: '',
-      notes: '',
-      brands: [],
-      cargo_types: [],
-    },
+    defaultValues
   });
+
 
   // Fetch countries for dropdown
   const { data: countries } = useQuery({

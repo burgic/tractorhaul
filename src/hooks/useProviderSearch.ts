@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../services/supabaseClient';
 import { geocodePostcode } from '../lib/geocoding';
-import type { Provider, ServiceType } from '../types/database';
+import type { Provider } from '../types/database';
+import { SearchParams } from '../types/search';
 
 
 interface UseProviderSearchResult {

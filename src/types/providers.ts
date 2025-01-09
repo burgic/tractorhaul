@@ -1,6 +1,7 @@
 
 // src/types/providers.ts
-import { ServiceType, Coordinates } from './common';
+
+export type ServiceType = 'inspector' | 'haulier';
 
 export interface Provider {
     id: string;
@@ -35,6 +36,30 @@ export interface CargoType {
   id: string;
   name: string;
 }
+
+export interface ProviderFormData {
+    name: string;
+    type: ServiceType;
+    contact_email: string;
+    contact_phone?: string;
+    address: string;
+    postcode: string;
+    country: string;
+    price_range?: string | null;
+    notes?: string | null;
+    brands?: string[];
+    cargo_types?: string[];
+  }
+  
+  export interface Country {
+    country_code: string;
+    country_name: string;
+  }
+  
+  export interface GeocodeResult {
+    latitude: number;
+    longitude: number;
+  }
 
 export interface Inspector extends Provider {
   type: 'inspector';

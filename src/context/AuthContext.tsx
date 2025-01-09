@@ -5,17 +5,12 @@ import { AuthSession, User } from '@supabase/supabase-js';
 
 interface AuthContextProps {
     user: User | null;
+    signOut: () => Promise<void>;
     session: AuthSession | null;
     loading: boolean;
 }
 
-const initialState: AuthContextProps = {
-    user: null,
-    session: null,
-    loading: true
-};
-
-export const AuthContext = createContext<AuthContextProps>(initialState);
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const useAuth = () => {
     const context = React.useContext(AuthContext);
@@ -70,10 +65,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, []);
 
+    const signOut = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+      };
+      
+
     const contextValue = {
         user,
         session,
-        loading
+        loading, 
+        signOut
     };
 
     if (loading) {
